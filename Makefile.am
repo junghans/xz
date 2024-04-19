@@ -39,9 +39,9 @@ dist_examples_DATA = \
 
 # Install the Doxygen generated documentation if they were built.
 install-data-local:
-	if test -d "$(srcdir)/doc/api" ; then \
+	if test -d "$(builddir)/doc/api" ; then \
 		$(MKDIR_P) "$(DESTDIR)$(docdir)/api" && \
-		$(INSTALL_DATA) "$(srcdir)"/doc/api/* \
+		$(INSTALL_DATA) "$(builddir)"/doc/api/* \
 			"$(DESTDIR)$(docdir)/api"; \
 	fi
 
