@@ -11,6 +11,7 @@
 
 #include "private.h"
 #include <stdarg.h>
+#include <ctype.h>
 
 
 /// Buffers for uint64_to_str() and uint64_to_nicestr()
@@ -86,6 +87,38 @@ xstrdup(const char *src)
 	const size_t size = strlen(src) + 1;
 	char *dest = xmalloc(size);
 	return memcpy(dest, src, size);
+}
+
+
+extern bool
+has_cntrl_chars(const char *str)
+{
+	for (size_t i = 0; str[i] != '\0'; ++i)
+		if (iscntrl(str[i]))
+			return true;
+
+	return false;
+}
+
+
+extern const char *
+mask_cntrl_chars(const char *str)
+{
+	static char *mem = NULL;
+
+	free(mem);
+	mem = NULL;
+
+	if (has_cntrl_chars(str)) {
+		mem = xstrdup(str);
+		for (size_t i = 0; mem[i] != '\0'; ++i)
+			if (iscntrl(mem[i]))
+				mem[i] = '?';
+
+		str = mem;
+	}
+
+	return str;
 }
 
 

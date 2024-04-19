@@ -26,6 +26,34 @@ extern void *xrealloc(void *ptr, size_t size);
 extern char *xstrdup(const char *src);
 
 
+/// \brief      Check if a string contains control characters (single bytes)
+///
+/// \brief      false if iscntrl() returns zero on all bytes in str.
+///             Otherwise true is returned.
+///
+/// \note       Multibyte control characters might no be detected but it
+///             should already help a lot that this catches US-ASCII control
+///             characters in C and UTF-8 locales.
+extern bool has_cntrl_chars(const char *str);
+
+
+/// \brief      Mask control characters (single bytes) in an untrusted string
+///
+/// \param      str     Untrusted string, for example, a filename
+///
+/// \return     If has_cntrl_chars(str) returns false, this function returns
+///             str. Otherwise memory is allocated using xstrdup() to hold
+///             a modified string and a pointer to that is returned. This
+///             means that each call to this function makes the old return
+///             values invalid. A modified string has the problematic bytes
+///             replaced by '?'.
+///
+/// \note       Multibyte control characters might no be detected but it
+///             should already help a lot that this masks US-ASCII control
+///             characters in C and UTF-8 locales.
+extern const char *mask_cntrl_chars(const char *str);
+
+
 /// \brief      Fancy version of strtoull()
 ///
 /// \param      name    Name of the option to show in case of an error
