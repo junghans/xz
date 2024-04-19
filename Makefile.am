@@ -134,3 +134,9 @@ pdf-local:
 			< "$(srcdir)/$$FILE" \
 			> "$$dest/pdf-letter/$$BASE-letter.pdf"; \
 	done
+
+liblzma-doc-api:
+	"$(srcdir)/doxygen/update-doxygen" api
+
+liblzma-doc-internal:
+	"$(srcdir)/doxygen/update-doxygen" internal
