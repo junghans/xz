@@ -83,14 +83,15 @@ parse_options(const char *str, const option_map *opts,
 
 		if (value == NULL || value[0] == '\0')
 			message_fatal(_("%s: Options must be 'name=value' "
-					"pairs separated with commas"), str);
+					"pairs separated with commas"),
+					mask_cntrl_chars(str));
 
 		// Look for the option name from the option map.
 		unsigned i = 0;
 		while (true) {
 			if (opts[i].name == NULL)
 				message_fatal(_("%s: Invalid option name"),
-						name);
+						mask_cntrl_chars(name));
 
 			if (strcmp(name, opts[i].name) == 0)
 				break;
@@ -110,7 +111,7 @@ parse_options(const char *str, const option_map *opts,
 
 			if (opts[i].map[j].name == NULL)
 				message_fatal(_("%s: Invalid option value"),
-						value);
+						mask_cntrl_chars(value));
 
 			set(filter_options, i, opts[i].map[j].id, value);
 
@@ -244,7 +245,8 @@ tuklib_attr_noreturn
 static void
 error_lzma_preset(const char *valuestr)
 {
-	message_fatal(_("Unsupported LZMA1/LZMA2 preset: %s"), valuestr);
+	message_fatal(_("Unsupported LZMA1/LZMA2 preset: %s"),
+			mask_cntrl_chars(valuestr));
 }
 
 
