@@ -94,7 +94,7 @@ extern bool
 has_cntrl_chars(const char *str)
 {
 	for (size_t i = 0; str[i] != '\0'; ++i)
-		if (iscntrl(str[i]))
+		if (iscntrl((unsigned char)str[i]))
 			return true;
 
 	return false;
@@ -112,7 +112,7 @@ mask_cntrl_chars(const char *str)
 	if (has_cntrl_chars(str)) {
 		mem = xstrdup(str);
 		for (size_t i = 0; mem[i] != '\0'; ++i)
-			if (iscntrl(mem[i]))
+			if (iscntrl((unsigned char)mem[i]))
 				mem[i] = '?';
 
 		str = mem;
