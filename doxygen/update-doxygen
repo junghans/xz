@@ -29,6 +29,15 @@ else
 	exit 1
 fi
 
+# Output directory is set to ../doc in Doxyfile but for out-of-tree builds
+# it needs to be overridden. This guesses out-of-tree build if the working
+# dir isn't the top source dir or the 'doxygen' directory itself.
+if test ! -f Doxyfile && test ! -f doxygen/Doxyfile ; then
+	OUTPUT_DIRECTORY="`pwd`/doc"
+else
+	OUTPUT_DIRECTORY=../doc
+fi
+
 if test ! -f Doxyfile; then
 	cd `dirname "$0"` || exit 1
 	if test ! -f Doxyfile; then
@@ -56,6 +65,7 @@ case $1 in
 		(
 			cat Doxyfile
 			echo "PROJECT_NUMBER         = $PACKAGE_VERSION"
+			echo "OUTPUT_DIRECTORY       = $OUTPUT_DIRECTORY"
 		) | doxygen -
 		;;
 
@@ -63,8 +73,9 @@ case $1 in
 		rm -rf ../doc/internal
 		(
 			cat Doxyfile
-			echo "PROJECT_NUMBER         = $PACKAGE_VERSION"
 			echo 'PROJECT_NAME           = "XZ Utils"'
+			echo "PROJECT_NUMBER         = $PACKAGE_VERSION"
+			echo "OUTPUT_DIRECTORY       = $OUTPUT_DIRECTORY"
 			echo 'STRIP_FROM_PATH        = ../src'
 			echo 'INPUT                  = ../src'
 			echo 'HTML_OUTPUT            = internal'
