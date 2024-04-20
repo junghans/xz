@@ -54,7 +54,7 @@ PACKAGE_VERSION=`cd .. && sh build-aux/version.sh` || exit 1
 case $1 in
 	'' | api)
 		# Remove old documentation before re-generating the new.
-		rm -rf ../doc/api
+		rm -rf "$OUTPUT_DIRECTORY/api"
 
 		# Generate the HTML documentation by preparing the Doxyfile
 		# in stdin and piping the result to the doxygen command.
@@ -70,7 +70,7 @@ case $1 in
 		;;
 
 	internal)
-		rm -rf ../doc/internal
+		rm -rf "$OUTPUT_DIRECTORY/internal"
 		(
 			cat Doxyfile
 			echo 'PROJECT_NAME           = "XZ Utils"'
